@@ -1,0 +1,31 @@
+{
+  "name": "api-monitoring-lab",
+  "version": "1.0.0",
+  "description": "monitoring api",
+  "keywords": [
+    "kubernetes",
+    "docker",
+    "node",
+    "prometheus",
+    "grafana"
+  ],
+  "homepage": "https://github.com/normyee/api-monitoring-lab#readme",
+  "bugs": {
+    "url": "https://github.com/normyee/api-monitoring-lab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/normyee/api-monitoring-lab.git"
+  },
+  "license": "ISC",
+  "author": "normyee",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

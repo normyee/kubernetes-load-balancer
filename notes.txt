@@ -1,0 +1,86 @@
+**PASSOS**
+1 - Rodar a aplicação em um container local
+
+a. docker build -t NOME .
+b. docker run -p 3000:300 -d
+
+2. criar uma tag da imagem e pushar para o docker hub
+
+a. docker login -u email
+b. docker tag NOME_DO_CONTAINER SEU_USER/NOME_DO_CONTAINER:VERSAO
+c. docker push normyee/kubernetes-load-balancer:1.0
+
+3. minikube - local k8s
+*minikube é com quem criamos o cluster.
+
+a. minikube start
+
+4. arquivos yaml
+*teremos dois arquivos yaml. um para deploy, e outro para expor nosso serviço.
+
+5. conceitos
+*pod é a menor unidade executável no kubernetes. geralmente contém 1 container
+*cluster é um gerenciador que orquestra vms e pods
+*nossa aplicação terá 3 pods
+*cluster é um gerenciador que orquestra vms e pods
+
+6. passos para criar os arquivos yaml
+
+a. kubectl create deployment kubernetes-load-balancer --image=normyee/kubernetes-load-balancer:1.0 --dry-run=client -o yaml > deployment.yaml
+*OBS: --dry-run=client é para evitar do arquivo fazer o deploy
+
+b. conteúdo inicial do deployment.yaml (editamos depois):
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: kubernetes-load-balancer
+  name: kubernetes-load-balancer
+spec:
+  replicas: 1 # trocaremos para 3 replicas
+  selector:
+    matchLabels:
+      app: kubernetes-load-balancer
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kubernetes-load-balancer
+    spec:
+      containers:
+      - image: normyee/kubernetes-load-balancer:1.0
+        name: kubernetes-load-balancer
+        ports: # adicionamos a porta também
+         - containerPort: 3000
+        resources: {}
+status: {}
+```
+7. aplicar o deployment
+
+a. kubectl apply -f deployment.yaml
+
+8. criar o service.yaml
+
+a. kubectl expose deployment kubernetes-load-balancer --port=80 --target-port=3000 --type=LoadBalancer --dry-run=client -o yaml > service.yaml
+
+9. aplicar o service
+
+a. kubectl apply -f service.yaml
+
+**comandos úteis**
+
+*kubectl é o comando que enviamos ações para o cluster
+*deployment.yaml é como definimos o cluster
+
+*kubectl get pods -> vê os pods do cluster
+*kubectl get all -> vê tudo rodando no cluster
+*kubectl logs pod/kubernetes-load-balancer-6889674f7d-56znv -> vê os logs de um pod
+*kubectl get endpoints NOME_DO_SERVIÇO -> vemos todas as endpoints do serviço exposto
+
+10. acessando o serviço
+
+a. minikube service kubernetes-load-balancer-service --url
+OBS: OBS: é o nome do serviço que definimos no service.yaml
