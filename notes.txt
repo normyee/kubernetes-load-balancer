@@ -80,6 +80,7 @@ a. kubectl apply -f service.yaml
 *kubectl get all -> vê tudo rodando no cluster
 *kubectl logs pod/kubernetes-load-balancer-6889674f7d-56znv -> vê os logs de um pod
 *kubectl get endpoints NOME_DO_SERVIÇO -> vemos todas as endpoints do serviço exposto
+*kubectl get namespaces -> pega todos os namespaces do cluster
 
 10. acessando o serviço
 
@@ -92,3 +93,20 @@ a. HPA (Horizontal Pod Autoscaler)
 
 b. kubectl autoscale deployment containerapi --min=1 --max=5 --cpu-percent=50 --dry-run=client -o yaml > hpa.yaml -> cria o HPA.
 *--cpu-percent=50 -> escala para até 5 pods caso CPU > 50%. mínimo 1 pod caso CPU < 50%.
+
+c. kubectl annotate deployment meu-app kubernetes.io/change-cause="troca de imagem para dev-v2"
+*é uma forma de comentarmos o change-cause do rollout mais recente
+
+d. kubectl set image deployment/containerapi containerapi=usuario/containerapi:dev-v2
+*é como adicionamos uma nova versão/tag para o nosso deployment
+
+12. ROLLOUT/ROLLBACK
+
+a. rollout é o comando em que vêmos o histórico de rollouts, onde vemos o status de um novo rollout, exemplo, uma nova versão/tag de um deployment. ou rollbacks
+
+*kubectl rollout undo deployment/meu-app -> faz rollback para a versão anterior
+*kubectl rollout history deployment/meu-app -> vê o histórico de rollouts
+*kubectl rollout status deployment/meu-app -> checa o status atual do rollout mais recente
+
+b. kubectl annotate deployment meu-app kubernetes.io/change-cause="troca de imagem para dev-v2"
+
