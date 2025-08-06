@@ -110,3 +110,5 @@ a. rollout é o comando em que vêmos o histórico de rollouts, onde vemos o sta
 
 b. kubectl annotate deployment meu-app kubernetes.io/change-cause="troca de imagem para dev-v2"
 
+GERENCIADOR DE PACOTES DO KUBERNETES
+helm é como gerenciamos pacotes, nela podemos instalar métricas, também serve para fazer rollbacks entre outras funcionalidades.
