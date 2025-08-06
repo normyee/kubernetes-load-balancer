@@ -17,6 +17,7 @@ a. minikube start
 
 4. arquivos yaml
 *teremos dois arquivos yaml. um para deploy, e outro para expor nosso serviço.
+OBS: é comum criarmos uma pasta "k8s" onde ficará os deployments.
 
 5. conceitos
 *pod é a menor unidade executável no kubernetes. geralmente contém 1 container
@@ -84,3 +85,10 @@ a. kubectl apply -f service.yaml
 
 a. minikube service kubernetes-load-balancer-service --url
 OBS: OBS: é o nome do serviço que definimos no service.yaml
+
+11. comandos necessários de se saber
+a. HPA (Horizontal Pod Autoscaler)
+*é uma forma de escalar deploys
+
+b. kubectl autoscale deployment containerapi --min=1 --max=5 --cpu-percent=50 --dry-run=client -o yaml > hpa.yaml -> cria o HPA.
+*--cpu-percent=50 -> escala para até 5 pods caso CPU > 50%. mínimo 1 pod caso CPU < 50%.
